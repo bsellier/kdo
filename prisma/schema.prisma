@@ -1,0 +1,61 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hashedPassword String
+  room           Room[]
+
+  authoredGifts Gift[] @relation("giftAuthor")
+  targetedGifts Gift[] @relation("giftTarget")
+  boughtGift    Gift[] @relation("giftBuyer")
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  type      RoomType @default(AllTarget)
+
+  users User[]
+  // targetUsers User[] @relation(fields: [u])
+  gifts Gift[]
+}
+
+// utile à des fins de stats uniquement
+enum RoomType {
+  SingleTarget //Birthday
+  MultiTarget
+  AllTarget //Christmas
+}
+
+model Gift {
+  id   String @id @default(cuid())
+  name String
+
+  bought  Boolean @default(false)
+  buyer   User?   @relation(name: "giftBuyer", fields: [buyerId], references: [id])
+  buyerId String?
+
+  author   User   @relation(name: "giftAuthor", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId String
+
+  target   User   @relation(name: "giftTarget", fields: [targetId], references: [id])
+  targetId String
+
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roomId String
+}
