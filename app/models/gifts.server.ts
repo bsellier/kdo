@@ -22,7 +22,7 @@ export const updateGiftBoughtState = async (
     where: { id: giftId },
     data: {
       bought: bought,
-      buyer: { connect: {id: buyerId}}
+      buyer: { connect: {id: buyerId ?? undefined}}
     },
   });
 };
