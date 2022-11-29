@@ -24,14 +24,14 @@ export const login = async ({ email, password }: LoginForm) => {
   return { id: user.id, email };
 };
 
-export const register = async ({ email, password }: LoginForm) => {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.user.create({
-    data: { email: email, hashedPassword: hashedPassword },
-  });
+// export const register = async ({ email, password }: LoginForm) => {
+//   const hashedPassword = await bcrypt.hash(password, 10);
+//   const user = await prisma.user.create({
+//     data: { email: email, hashedPassword: hashedPassword },
+//   });
 
-  return { id: user.id, email };
-};
+//   return { id: user.id, email };
+// };
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
