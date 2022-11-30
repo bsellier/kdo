@@ -1,14 +1,9 @@
 import { useActionData } from "@remix-run/react";
-import {
-  ActionFunction,
-  LoaderFunction,
-  redirect,
-} from "@remix-run/server-runtime";
-import { prisma, Room, RoomType, User } from "@prisma/client";
+import { ActionFunction, redirect } from "@remix-run/server-runtime";
+import type { RoomType, User } from "@prisma/client";
 import {
   getManyUsersByEmailContains,
   getManyUsersByEmails,
-  getUserByEmail,
   getUserById,
 } from "~/models/user.server";
 import { createRoom } from "~/models/room.server";
@@ -38,7 +33,6 @@ export const action: ActionFunction = async ({
         const usersEmail = users.map((user) => user.email);
         return { usersEmail: usersEmail };
       } else return { error: "Empty search user field" };
-      break;
 
     case "createRoom":
       console.log("create room");
@@ -72,7 +66,6 @@ export const action: ActionFunction = async ({
       );
 
       return redirect(`${newRoom.id}`);
-      break;
   }
 
   return { error: "Implementation does not exist" };
@@ -99,7 +92,7 @@ const CreateRoom = () => {
             Select user
             <select name="chooseUsers" multiple>
               {actionData.usersEmail.map((user: string) => (
-                <option>{user}</option>
+                <option key={user}>{user}</option>
               ))}
             </select>
           </label>

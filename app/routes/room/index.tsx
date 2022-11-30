@@ -1,7 +1,6 @@
-import { Room } from "@prisma/client";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import { LoaderFunction } from "@remix-run/server-runtime";
-import { prisma } from "~/db.server";
+import type { Room } from "@prisma/client";
+import { Link, useLoaderData } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/server-runtime";
 import { getRoomByUserId } from "~/models/room.server";
 import { getUser, logout } from "~/session.server";
 

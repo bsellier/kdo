@@ -1,11 +1,9 @@
 import {
-  Link,
   LiveReload,
   Outlet,
   Links,
   Meta,
   ScrollRestoration,
-  Scripts,
 } from "@remix-run/react";
 import { MetaFunction } from "@remix-run/server-runtime";
 

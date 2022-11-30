@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
+import { useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
 
 import { createUserSession, getUserId } from "~/session.server";
@@ -87,10 +87,28 @@ const Register = () => {
   }, [actionData]);
 
   return (
-    <div className="registerContainer">
+    <div
+      className="registerContainer"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        maxWidth: "95%",
+        alignItems: "center",
+      }}
+    >
       <h1>S'inscrire</h1>
 
-      <form method="post">
+      <form
+        method="post"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          maxWidth: "95%",
+          alignItems: "center",
+        }}
+      >
         <input
           type="hidden"
           name="redirectTo"
@@ -99,6 +117,7 @@ const Register = () => {
 
         <label>
           Votre adresse-email
+          <br />
           <input type="text" name="email" />
         </label>
         {actionData?.errors?.email ? (
@@ -107,6 +126,7 @@ const Register = () => {
 
         <label>
           Votre mot de passe
+          <br />
           <input type="password" name="password" />
         </label>
         {actionData?.errors?.password ? (
@@ -115,10 +135,11 @@ const Register = () => {
 
         <label>
           Votre prénom
+          <br />
           <input type="text" name="name" />
         </label>
 
-        <button type="submit">Se connecter</button>
+        <button type="submit">S'inscrire</button>
       </form>
     </div>
   );

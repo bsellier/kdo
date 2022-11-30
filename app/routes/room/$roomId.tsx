@@ -1,12 +1,11 @@
-import type { User, Room } from "@prisma/client";
-import { Link, useActionData, useLoaderData } from "@remix-run/react";
+import type { User } from "@prisma/client";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import {
   ActionFunction,
   json,
   LoaderFunction,
   redirect,
 } from "@remix-run/server-runtime";
-import { MouseEventHandler } from "react";
 import { deleteGift, updateGiftBoughtState } from "~/models/gifts.server";
 import {
   addGiftToRoom,
@@ -144,7 +143,7 @@ const RoomdId = () => {
           <div style={{ display: "flex", gap: "15px" }}>
             {loaderData.otherUsers.map((otherUser) => (
               // <div style={{ border: "solid 2px grey" }}>
-              <fieldset>
+              <fieldset key={otherUser.id}>
                 <legend>
                   <h4>{otherUser.name}</h4>
                 </legend>
@@ -220,7 +219,7 @@ const RoomdId = () => {
                 {loaderData.room.gifts
                   .filter((gift) => gift.targetId === loaderData.user!.id)
                   .map((gift) => (
-                    <li>
+                    <li key={gift.id}>
                       <span
                         style={{
                           display: "flex",
