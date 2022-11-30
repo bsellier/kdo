@@ -28,7 +28,7 @@ CREATE TABLE "Gift" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "bought" BOOLEAN NOT NULL DEFAULT false,
-    "buyerId" TEXT NOT NULL,
+    "buyerId" TEXT,
     "authorId" TEXT NOT NULL,
     "targetId" TEXT NOT NULL,
     "roomId" TEXT NOT NULL,
@@ -52,7 +52,7 @@ CREATE UNIQUE INDEX "_RoomToUser_AB_unique" ON "_RoomToUser"("A", "B");
 CREATE INDEX "_RoomToUser_B_index" ON "_RoomToUser"("B");
 
 -- AddForeignKey
-ALTER TABLE "Gift" ADD CONSTRAINT "Gift_buyerId_fkey" FOREIGN KEY ("buyerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Gift" ADD CONSTRAINT "Gift_buyerId_fkey" FOREIGN KEY ("buyerId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Gift" ADD CONSTRAINT "Gift_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
