@@ -1,11 +1,7 @@
 import type { User } from "@prisma/client";
 import { useActionData, useLoaderData } from "@remix-run/react";
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-  redirect,
-} from "@remix-run/server-runtime";
+import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
+import { json, redirect } from "@remix-run/server-runtime";
 import { deleteGift, updateGiftBoughtState } from "~/models/gifts.server";
 import {
   addGiftToRoom,
@@ -50,6 +46,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 type ActionDataType = {
   addUserError?: string;
   addUserAchieved?: string;
+  giftAdded?: boolean;
+  giftBought?: boolean;
+  boughtCanceled?: boolean;
+  giftDeleted?: boolean;
 };
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -70,7 +70,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       if (user === null) return logout(request);
 
       addGiftToRoom(roomId, user.id, user.id, wishedGift);
-      return redirect("");
+      return { giftAdded: true };
     }
 
     case "addUser": {
@@ -92,7 +92,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       if (giftId === null || typeof giftId !== "string" || user === null)
         return { error: "badRequest" };
       updateGiftBoughtState(giftId, true, user.id);
-      return redirect("");
+      return { giftBought: true };
     }
 
     case "cancelBuy": {
@@ -102,7 +102,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       if (giftId === null || typeof giftId !== "string" || user === null)
         return { error: "badRequest" };
       updateGiftBoughtState(giftId, false, user.id);
-      return redirect("");
+      return { boughtCanceled: false };
     }
 
     case "deleteGift": {
@@ -111,7 +111,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       if (giftId === null || typeof giftId !== "string")
         return { error: "badRequest" };
       deleteGift(giftId);
-      return redirect("");
+      return { giftDeleted: false };
     }
   }
   return { error: "not implemented" };

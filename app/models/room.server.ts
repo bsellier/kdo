@@ -1,4 +1,4 @@
-import { Gift, Room, User } from "@prisma/client";
+import type { Gift, Room, User } from "@prisma/client";
 import { redirect } from "@remix-run/server-runtime";
 
 import { prisma } from "~/db.server";

@@ -5,7 +5,7 @@ import {
   Meta,
   ScrollRestoration,
 } from "@remix-run/react";
-import { MetaFunction } from "@remix-run/server-runtime";
+import type { MetaFunction } from "@remix-run/server-runtime";
 
 // export const links: LinksFunction = () => [
 //   { rel: "stylesheet", href: globalStyleUrl },

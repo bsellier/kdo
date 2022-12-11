@@ -1,5 +1,6 @@
 import { useActionData } from "@remix-run/react";
-import { ActionFunction, redirect } from "@remix-run/server-runtime";
+import type { ActionFunction} from "@remix-run/server-runtime";
+import { redirect } from "@remix-run/server-runtime";
 import type { RoomType, User } from "@prisma/client";
 import {
   getManyUsersByEmailContains,

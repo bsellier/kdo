@@ -1,4 +1,4 @@
-import { Gift, User } from "@prisma/client";
+import type { Gift, User } from "@prisma/client";
 import { prisma } from "~/db.server";
 
 export const createGift = (
