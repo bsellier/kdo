@@ -18,6 +18,7 @@ export const updateGiftBoughtState = async (
   bought: Gift["bought"],
   buyerId: Gift["buyerId"]
 ) => {
+  try {
   return await prisma.gift.update({
     where: { id: giftId },
     data: {
@@ -25,8 +26,18 @@ export const updateGiftBoughtState = async (
       buyer: { connect: {id: buyerId ?? undefined}}
     },
   });
+} catch(error) {
+  console.log("update gift");
+  console.log(error);
+}
 };
 
 export const deleteGift = async (giftId: Gift["id"]) => {
+  try {
   return await prisma.gift.delete({ where: { id: giftId } });
+  }
+  catch (error) {
+    console.log("Delete Gift error: ")
+    console.log(error);
+  }
 };

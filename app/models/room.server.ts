@@ -8,28 +8,41 @@ export async function createRoom(
   users: User[],
   type: Room["type"]
 ) {
-  return await prisma.room.create({
-    data: {
-      name: name,
-      type: type,
-      users: {
-        connect: users.map((user) => ({ id: user.id })),
+
+  try {
+    return await prisma.room.create({  
+      data: {
+        name: name,
+        type: type,
+        users: {
+          connect: users.map((user) => ({ id: user.id })),
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.log("room creation error: ");
+    console.log(error);
+  }
+  
 }
 
 export async function addUserToRoom(roomId: Room["id"], userId: User["id"]) {
-  return await prisma.room.update({
-    where: { id: roomId },
-    data: {
-      users: {
-        connect: {
-          id: userId,
+  try {
+    return await prisma.room.update({
+      where: { id: roomId },
+      data: {
+        users: {
+          connect: {
+            id: userId,
+          },
         },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.log('add user to room error');
+    console.log(error);
+  }
+ 
 }
 
 export async function addGiftToRoom(
@@ -38,7 +51,8 @@ export async function addGiftToRoom(
   targetId: User["id"],
   giftIdea: Gift["name"]
 ) {
-  return await prisma.room.update({
+  try
+  {return await prisma.room.update({
     where: { id: roomId },
     data: {
       gifts: {
@@ -50,17 +64,30 @@ export async function addGiftToRoom(
       },
     },
   });
+} catch(error) {
+  console.log("Add gift to room error:");
+  console.log(error);
+}
 }
 
 export async function getRoomById(roomdId: Room["id"]) {
-  return prisma.room.findUnique({
+  try
+  {return prisma.room.findUnique({
     where: { id: roomdId },
     select: { name: true, id: true, users: true, gifts: true },
-  });
+  });} catch(error) {
+    console.log("get room by id");
+    console.log(error);
+  }
 }
 
 export async function getRoomByUserId(userId: Room["id"]) {
+  try{
   return await prisma.room.findMany({
     where: { users: { some: { id: userId } } },
   });
+} catch(error) {
+  console.log('get room by user id error');
+  console.log(error);
+}
 }
