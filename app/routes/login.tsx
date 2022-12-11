@@ -1,5 +1,5 @@
 import { useActionData, useSearchParams } from "@remix-run/react";
-import type { ActionFunction} from "@remix-run/server-runtime";
+import type { ActionFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import { login, createUserSession } from "~/session.server";
 

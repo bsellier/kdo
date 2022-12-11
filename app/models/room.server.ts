@@ -8,9 +8,8 @@ export async function createRoom(
   users: User[],
   type: Room["type"]
 ) {
-
   try {
-    return await prisma.room.create({  
+    return await prisma.room.create({
       data: {
         name: name,
         type: type,
@@ -23,7 +22,6 @@ export async function createRoom(
     console.log("room creation error: ");
     console.log(error);
   }
-  
 }
 
 export async function addUserToRoom(roomId: Room["id"], userId: User["id"]) {
@@ -39,10 +37,9 @@ export async function addUserToRoom(roomId: Room["id"], userId: User["id"]) {
       },
     });
   } catch (error) {
-    console.log('add user to room error');
+    console.log("add user to room error");
     console.log(error);
   }
- 
 }
 
 export async function addGiftToRoom(
@@ -51,43 +48,44 @@ export async function addGiftToRoom(
   targetId: User["id"],
   giftIdea: Gift["name"]
 ) {
-  try
-  {return await prisma.room.update({
-    where: { id: roomId },
-    data: {
-      gifts: {
-        create: {
-          name: giftIdea,
-          author: { connect: { id: userId } },
-          target: { connect: { id: targetId } },
+  try {
+    return await prisma.room.update({
+      where: { id: roomId },
+      data: {
+        gifts: {
+          create: {
+            name: giftIdea,
+            author: { connect: { id: userId } },
+            target: { connect: { id: targetId } },
+          },
         },
       },
-    },
-  });
-} catch(error) {
-  console.log("Add gift to room error:");
-  console.log(error);
-}
+    });
+  } catch (error) {
+    console.log("Add gift to room error:");
+    console.log(error);
+  }
 }
 
 export async function getRoomById(roomdId: Room["id"]) {
-  try
-  {return prisma.room.findUnique({
-    where: { id: roomdId },
-    select: { name: true, id: true, users: true, gifts: true },
-  });} catch(error) {
+  try {
+    return prisma.room.findUnique({
+      where: { id: roomdId },
+      select: { name: true, id: true, users: true, gifts: true },
+    });
+  } catch (error) {
     console.log("get room by id");
     console.log(error);
   }
 }
 
 export async function getRoomByUserId(userId: Room["id"]) {
-  try{
-  return await prisma.room.findMany({
-    where: { users: { some: { id: userId } } },
-  });
-} catch(error) {
-  console.log('get room by user id error');
-  console.log(error);
-}
+  try {
+    return await prisma.room.findMany({
+      where: { users: { some: { id: userId } } },
+    });
+  } catch (error) {
+    console.log("get room by user id error");
+    console.log(error);
+  }
 }

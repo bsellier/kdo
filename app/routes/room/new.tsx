@@ -1,5 +1,5 @@
 import { useActionData } from "@remix-run/react";
-import type { ActionFunction} from "@remix-run/server-runtime";
+import type { ActionFunction } from "@remix-run/server-runtime";
 import { redirect } from "@remix-run/server-runtime";
 import type { RoomType, User } from "@prisma/client";
 import {
@@ -66,7 +66,8 @@ export const action: ActionFunction = async ({
         roomType as RoomType
       );
 
-      return redirect(`${newRoom.id}`);
+      if (newRoom) return redirect(`${newRoom.id}`);
+      else return { error: "Room creation failed" };
   }
 
   return { error: "Implementation does not exist" };

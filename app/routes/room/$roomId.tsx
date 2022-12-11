@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (!roomId) return { error: "Bad Request, no id found" };
 
   const room = await getRoomById(roomId);
-  if (room === null) return json({ error: "Room not found" });
+  if (!room || room === null) return json({ error: "Room not found" });
 
   const user = await getUser(request);
   if (user === null) return logout(request);
@@ -216,7 +216,7 @@ const RoomdId = () => {
                 <h4>Mes idées cadeaux</h4>
               </legend>
               <ul>
-                {loaderData.room.gifts
+                {loaderData.room?.gifts
                   .filter((gift) => gift.targetId === loaderData.user!.id)
                   .map((gift) => (
                     <li key={gift.id}>
